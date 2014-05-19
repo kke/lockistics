@@ -161,6 +161,16 @@ You can query statistics for locking/metering keys.
         :last_run:time => #<Time..>}
 ```
 
+## Storage
+
+- All keys are prefixed with the `configuration.namespace`
+- namespace.KEY_NAME.lock for lock
+- namespace.KEY_NAME.dailies is a sorted set with timestamps
+- namespace.KEY_NAME.daily.TIMESTAMP is a hash with keys like "invocations", "max.time"
+- same goes for dailies (but with daily + dailies in the key)
+- namespace.KEY_NAME.total has all time stats for the key
+- namespace.known_keys is a sorted set of known keys
+
 ## Contributing
 
 1. Fork it
