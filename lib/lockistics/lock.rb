@@ -17,6 +17,7 @@ module Lockistics
     end
 
     def acquire_lock
+      Lockistics.known_keys(key)
       if got_lock?
         true
       elsif options[:wait]

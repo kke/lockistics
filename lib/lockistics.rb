@@ -124,4 +124,14 @@ module Lockistics
     Statistics.new(key)
   end
 
+  # Get a list of known keys or add a key to
+  # known keys list.
+  def self.known_keys(key=nil)
+    if key.nil?
+      redis.smembers "#{Lockistics.configuration.namespace}.known_keys"
+    else
+      redis.sadd "#{Lockistics.configuration.namespace}.known_keys", key
+    end
+  end
+
 end

@@ -20,6 +20,10 @@ Or install it yourself as:
 
     $ gem install lockistics
 
+#### Redis
+
+Notice that you need a Redis v2.6.2+ as this gem uses LUA for race condition safe lock acquiring and min/max setting
+
 ## Usage
 
 You can use both parts separately if you just want to collect statistics or to just do simple locking.
@@ -122,7 +126,9 @@ It works exactly like the above, but the method is `meterlock`.
     if results.empty?
       meter.incr "empty_results"
     else
-      meter.incrby "stuffs_done", results.size
+      # Sets min and/or max for a key (min.stuffs_done + max.stuffs_done)
+      # Only sets if value is minimum or maximum for the periods.
+      meter.set_minmax "stuffs_done", results.size
     end
   end
 ```

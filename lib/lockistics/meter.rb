@@ -91,7 +91,7 @@ module Lockistics
     private
 
     def redis
-      Lockistics.redis
+      Lockistics.configuration.redis
     end
 
     def redis_hsetmax(hash, key, value)
@@ -107,6 +107,7 @@ module Lockistics
     end
 
     def before_perform
+      Lockistics.known_keys(key)
       @start_time = Time.now.to_f
       @start_rss  = OS.rss_bytes
       redis.pipelined do
