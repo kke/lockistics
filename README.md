@@ -4,7 +4,7 @@ Lockistics is basically a distributed mutex on Redis with statistics collecting 
 
 The likely use case for locking would be something like a Raketask that you don't want running multiple instances at once.
 
-The likely use case for the statistics part would be that you want to how often something is being called or if a certain Raketask has been run today or not. You can also use it to find memory leaks or slow methods, kind of private NewRelic with zero features.
+The likely use case for the statistics part would be that you want to know how often something is being called or if a certain Raketask has been run today or not. You can also use it to find memory leaks or slow methods, kind of private NewRelic with zero features.
 
 ## Installation
 
