@@ -37,6 +37,10 @@ Total, daily and hourly metrics you get for each key are:
  - Minimum and maximum memory growth (using OS gem)
  - Arbitary metrics you add during execution (more on this in examples)
 
+## Why?
+
+Convenience mostly. There are redis-locking gems and some quite complex statistics modules, this does both with minimum dependencies, easy usage and Ruby 1.8.7 support.
+
 ## Examples
 
 #### Configure the gem
