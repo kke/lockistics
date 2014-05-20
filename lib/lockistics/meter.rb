@@ -52,7 +52,7 @@ module Lockistics
         yield DummyMeter.new
       else
         before_perform
-        lock.nil? ? yield(self) : with_lock(&block)
+        lock ? with_lock(&block) : yield(self)
       end
     rescue Lockistics::LockTimeout
       @lock_timeouts = 1
@@ -117,7 +117,7 @@ module Lockistics
     end
 
     def before_perform
-      Lockistics.known_keys(key)
+      Lockistics.known_keys(key) unless options[:no_metrics]
       @start_time = Time.now.to_f
       @start_rss  = OS.rss_bytes
       redis.pipelined do

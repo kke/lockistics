@@ -8,6 +8,9 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
   config.order = 'random'
+  config.before(:each) do
+    Redis::Connection::Memory.reset_all_databases
+  end
 end
 
 class Redis
@@ -54,3 +57,4 @@ class Redis
     end
   end
 end
+

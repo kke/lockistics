@@ -99,9 +99,10 @@ describe "Lockistics.meter" do
 
   it "should know known keys" do
     Lockistics.redis.del("lockistics.known_keys")
-    Lockistics.lock("mtest1", :wait => false, :raise => false) {}
+    Lockistics.meter("mtest1") {}
     Lockistics.meter("mtest2") {}
     Lockistics.meterlock("mtest3", :wait => false, :raise => false) {}
+    Lockistics.lock("mtest4", :wait => false, :raise => false) {}
     Lockistics.known_keys.include?("mtest1").should be_true
     Lockistics.known_keys.include?("mtest2").should be_true
     Lockistics.known_keys.include?("mtest3").should be_true
