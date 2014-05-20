@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Lockistics::VERSION
   spec.authors       = ["Kimmo Lehto"]
   spec.email         = ["kimmo.lehto@gmail.com"]
-  spec.description   = %q{Statsistics collecting locking}
+  spec.description   = %q{Statsistics collecting shared mutex on Redis}
   spec.summary       = %q{With lockistics you can use Redis to create distributed locks and collect statistics how often and how long your locks are held}
   spec.homepage      = "https://github.com/kke/lockistics"
   spec.license       = "MIT"
