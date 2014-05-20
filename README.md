@@ -172,6 +172,8 @@ You can query statistics for locking/metering keys.
 - namespace.KEY_NAME.total has all time stats for the key
 - namespace.known_keys is a sorted set of known keys
 
+Storage amount requirements are not that large since there's only incremental/min_max counters maximum once for each hour, each day and the total. My guess is max 10kb per day per key, so even with actions to a million keys a day you would still have inrease of maybe 10 megabytes a day. In a future version there can be an option to set expiration on darily/hourly hashes so that old data disappears automatically.
+
 ## Contributing
 
 1. Fork it
