@@ -1,6 +1,12 @@
 require 'os'
 
 module Lockistics
+  class DummyMeter
+    def method_missing(*args, &block)
+      # do nothing
+    end
+  end
+
   class Meter
 
     attr_accessor :key, :options
@@ -27,7 +33,7 @@ module Lockistics
 
     def initialize(key, options={})
       @key     = key
-      @options = options
+      @options = {:pass_through => Lockistics.configuration.pass_through}.merge(options)
       @lock_timeouts = 0
     end
 
@@ -42,13 +48,17 @@ module Lockistics
 
     def perform(&block)
       raise ArgumentError, "perform called without block" unless block_given?
-      before_perform
-      lock.nil? ? yield(self) : with_lock(&block)
+      if options[:pass_through]
+        yield DummyMeter.new
+      else
+        before_perform
+        lock.nil? ? yield(self) : with_lock(&block)
+      end
     rescue Lockistics::LockTimeout
       @lock_timeouts = 1
       raise
     ensure
-      after_perform
+      after_perform unless options[:pass_through]
     end
 
     # You can add custom metrics during runtime

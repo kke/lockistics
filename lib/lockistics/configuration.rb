@@ -10,13 +10,15 @@ module Lockistics
     attr_accessor :sleep
     attr_accessor :retries
     attr_accessor :raise
+    attr_accessor :pass_through
 
     def initialize
-      @redis     = Redis.new
-      @namespace = 'lockistics'
-      @expire    = 10
-      @sleep     = 0.5
-      @retries   = 10
+      @redis        = Redis.new
+      @namespace    = 'lockistics'
+      @expire       = 10
+      @sleep        = 0.5
+      @retries      = 10
+      @pass_through = false
     end
 
     def lock_defaults

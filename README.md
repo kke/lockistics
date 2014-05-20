@@ -51,10 +51,11 @@ These are the default settings :
   Lockistics.configure do |config|
     config.redis                = Redis.new
     config.namespace            = "lockistics"
-    config.expire               = 300  # seconds
-    config.sleep                = 0.5  # seconds to sleep between retries
-    config.retries              = 10   # retry times
-    config.raise                = true # raise Lockistics::TimeoutException when lock fails
+    config.expire               = 300   # seconds
+    config.sleep                = 0.5   # seconds to sleep between retries
+    config.retries              = 10    # retry times
+    config.raise                = true  # raise Lockistics::TimeoutException when lock fails
+    config.pass_through         = false # don't do anything, let everything pass through
   end
 ```
 

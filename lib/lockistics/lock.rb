@@ -17,6 +17,7 @@ module Lockistics
     end
 
     def acquire_lock
+      return true if options[:pass_through]
       Lockistics.known_keys(key)
       if got_lock?
         true
@@ -46,6 +47,7 @@ module Lockistics
     end
 
     def release_lock
+      return true if options[:pass_through]
       @exceeded_before_release = redis.del(namespaced_key) == 0
     end
 
