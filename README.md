@@ -138,6 +138,34 @@ It works exactly like the above, but the method is `meterlock`.
   end
 ```
 
+#### Wrapping instance methods of a class
+
+This is still experimental and I'm not quite happy with the implementation.
+
+```ruby
+  class SomeClass
+    include Lockistics::Meterable
+    meter :some_instance_method
+    # or:
+    meter :all, :except => :not_this_method
+
+    def some_instance_method
+      do_something
+    end
+
+    def not_this_method
+      do_something
+    end
+  end
+```
+
+Now each call to `some_instance_method` should be wrapped inside a meter
+block and the key name is "someclass_some_instance_method".
+
+The include and meter commands should be placed above any method
+definitions in the file. Prettier implementation would be appreciated,
+preferably one that would work with class methods also.
+
 #### Getting the statistics out
 
 You can query statistics for locking/metering keys.

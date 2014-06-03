@@ -3,6 +3,7 @@ require "lockistics/configuration"
 require "lockistics/lock"
 require "lockistics/meter"
 require "lockistics/statistics"
+require "lockistics/meterable"
 
 # Lockistics is basically a distributed mutex on Redis.
 #
@@ -19,6 +20,19 @@ require "lockistics/statistics"
 #  - Minimum and maximum duration
 #  - Minimum and maximum memory growth (using OS gem)
 #  - Arbitary metrics you add during execution
+#
+#  Theres also an experimental module you can use to wrap any instance
+#  methods inside a meter block.
+#
+#  @example
+#    class SomeClass
+#      include Lockistics::Meterable
+#      meter :instance_method_name
+#
+#      def instance_method_name
+#        do_something
+#      end
+#    end
 module Lockistics
 
   # Configure the gem
