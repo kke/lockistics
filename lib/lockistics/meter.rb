@@ -119,7 +119,12 @@ module Lockistics
     def before_perform
       Lockistics.known_keys(key) unless options[:no_metrics]
       @start_time = Time.now.to_f
-      @start_rss  = OS.rss_bytes
+      # Sometimes you get 'Cannot allocate memory - ps -o rss= -p 15964'
+      begin
+        @start_rss  = OS.rss_bytes
+      rescue
+        @start_rss  = nil
+      end
       redis.pipelined do
         redis.sadd "#{Lockistics.configuration.namespace}.#{key}.hourlies", hourly_timestamp
         redis.sadd "#{Lockistics.configuration.namespace}.#{key}.dailies",  daily_timestamp
@@ -130,7 +135,7 @@ module Lockistics
     def after_perform
       unless @lock_timeouts > 0
         @duration     = ((Time.now.to_f - @start_time) * 1000).round
-        @rss_increase = ((OS.rss_bytes  - @start_rss)  / 1024).round
+        @rss_increase = ((OS.rss_bytes  - @start_rss)  / 1024).round unless @start_rss.nil?
       end
       add_meter_statistics unless options[:no_metrics]
       add_lock_statistics  unless lock.nil?
