@@ -117,7 +117,8 @@ module Lockistics
     end
 
     def before_perform
-      Lockistics.known_keys(key) unless options[:no_metrics]
+      return nil if options[:no_metrics]
+      Lockistics.known_keys(key)
       @start_time = Time.now.to_f
       # Sometimes you get 'Cannot allocate memory - ps -o rss= -p 15964'
       begin
@@ -133,12 +134,13 @@ module Lockistics
     end
 
     def after_perform
+      return nil if options[:no_metrics]
       unless @lock_timeouts > 0
         @duration     = ((Time.now.to_f - @start_time) * 1000).round
         @rss_increase = ((OS.rss_bytes  - @start_rss)  / 1024).round unless @start_rss.nil?
       end
       add_meter_statistics unless options[:no_metrics]
-      add_lock_statistics  unless lock.nil?
+      add_lock_statistics unless lock.nil?
     end
 
     def add_meter_statistics

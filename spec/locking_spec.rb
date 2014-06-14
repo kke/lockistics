@@ -50,4 +50,13 @@ describe "Lockistics.lock" do
     Lockistics.release("ltest1")
     Lockistics.release("ltest2")
   end
+
+  it "should not collect metrics when locking only" do
+    Lockistics.lock("ltest1", :wait => false, :raise => false, :expire => 100) do
+      #
+    end
+    stats = Lockistics.statistics("ltest1")
+    Lockistics.redis.keys(Lockistics.configuration.namespace + ".ltest1*").should be_empty
+    stats.daily.should be_empty
+  end
 end
