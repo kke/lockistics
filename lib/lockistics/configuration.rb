@@ -11,6 +11,7 @@ module Lockistics
     attr_accessor :retries
     attr_accessor :raise
     attr_accessor :pass_through
+    attr_accessor :meter_rss
 
     def initialize
       @redis        = Redis.new
@@ -19,6 +20,7 @@ module Lockistics
       @sleep        = 0.5
       @retries      = 10
       @pass_through = false
+      @meter_rss    = false
     end
 
     def lock_defaults
@@ -29,6 +31,7 @@ module Lockistics
         :sleep => sleep,
         :retries => retries,
         :wait => true,
+        :meter_rss => false,
         :raise => true
       }
     end

@@ -18,7 +18,7 @@ require "lockistics/meterable"
 #  - Number of times having to wait for lock
 #  - Number of failed locking attempts
 #  - Minimum and maximum duration
-#  - Minimum and maximum memory growth (using OS gem)
+#  - Minimum and maximum memory growth (using OS gem, only when :meter_rss => true)
 #  - Arbitary metrics you add during execution
 #
 #  Theres also an experimental module you can use to wrap any instance
@@ -46,6 +46,7 @@ module Lockistics
   #     config.retries              = 10    # retry times
   #     config.raise                = true  # raise Lockistics::TimeoutException when lock fails
   #     config.pass_through         = false # don't do anything, just pass everything through
+  #     config.meter_rss            = false # measure memory growth during lock, note that it will increase memory consumption
   #   end
   def self.configure(&block)
     yield configuration

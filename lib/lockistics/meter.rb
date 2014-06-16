@@ -121,11 +121,16 @@ module Lockistics
       Lockistics.known_keys(key)
       @start_time = Time.now.to_f
       # Sometimes you get 'Cannot allocate memory - ps -o rss= -p 15964'
-      begin
-        @start_rss  = OS.rss_bytes
-      rescue
+      if options[:meter_rss]
+        begin
+          @start_rss  = OS.rss_bytes
+        rescue
+          @start_rss  = nil
+        end
+      else
         @start_rss  = nil
       end
+
       redis.pipelined do
         redis.sadd "#{Lockistics.configuration.namespace}.#{key}.hourlies", hourly_timestamp
         redis.sadd "#{Lockistics.configuration.namespace}.#{key}.dailies",  daily_timestamp

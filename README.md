@@ -34,7 +34,7 @@ Total, daily and hourly metrics you get for each key are:
  - Number of times having to wait for lock
  - Number of failed locking attempts
  - Minimum and maximum duration
- - Minimum and maximum memory growth (using OS gem)
+ - Minimum and maximum memory growth (using OS gem, only when :meter_rss is set to true)
  - Arbitary metrics you add during execution (more on this in examples)
 
 ## Why?
